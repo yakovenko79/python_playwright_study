@@ -32,4 +32,4 @@ def test_login_success(login_page, username, password, dashboard_page):
     with allure.step('Ввести в форму авторизации недействительные учетные данные'):
         login_page.login(username, password)
     with allure.step('Отображается приветственное сообщение с именем пользователя'):
-        dashboard_page.assert_welcome_messsage(f"Welcome {username}")
+        dashboard_page.assert_welcome_message(f"Welcome {username}")

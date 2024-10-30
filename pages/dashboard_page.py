@@ -6,5 +6,5 @@ class DashboardPage:
         self.profile = page.locator('#usernameDisplay')
         self.logout = page.locator('#logout')
 
-    def assert_welcome_messsage(self, message):
+    def assert_welcome_message(self, message):
         expect(self.profile).to_have_text(message)
