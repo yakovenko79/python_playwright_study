@@ -23,14 +23,15 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
         with: 
           python-version: '3.12'
 
       # Runs a single command using the runners shell
       - name: Install dependencies
         run: 
+          set -e
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Ensure browsers are installed
@@ -38,7 +39,7 @@ jobs:
       - name: Run tests
         run: pytest -s -v
       - uses: actions/upload-artifact@v4
-        if: ${{ !cancelled() }}
+        if: success()
         with:
           name: allure_report
           path: reports/
