@@ -44,7 +44,7 @@ jobs:
           name: allure_report
           path: reports/
       - name: Get Allure history
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         if: always()
         continue-on-error: true
         with:
@@ -61,7 +61,7 @@ jobs:
       - uses: peaceiris/actions-gh-pages@v4
         if: always()
         env:
-          PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PUBLISH_BRANCH: gh-pages
           PUBLISH_DIR: allure-history
 
