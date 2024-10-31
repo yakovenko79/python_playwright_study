@@ -11,7 +11,7 @@ on:
     branches: [ "main" ]
 
   # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+  # workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -30,24 +30,17 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Install dependencies
-        run: 
+        run: |
+          set -e
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Ensure browsers are installed
         run: python -m playwright install --with-deps
       - name: Run tests
         run: pytest -s -v 
-      - name: Check reports directory
-        run: |
-          if [ -d "reports" ]; then
-            echo "Directory reports exists."
-            ls reports
-          else
-            echo "Directory reports does not exist."
-          fi
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
           name: allure_report
-          path: ../tests/reports/
+          path: reports/
 
