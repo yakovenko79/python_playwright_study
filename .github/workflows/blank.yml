@@ -24,8 +24,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with: 
           python-version: '3.12'
 
@@ -38,9 +37,17 @@ jobs:
         run: python -m playwright install --with-deps
       - name: Run tests
         run: pytest -s -v 
+      - name: Check reports directory
+        run: |
+          if [ -d "reports" ]; then
+            echo "Directory reports exists."
+            ls reports
+          else
+            echo "Directory reports does not exist."
+          fi
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
           name: allure_report
-          path: reports/
+          path: ../tests/reports/
 
