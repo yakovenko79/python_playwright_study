@@ -21,7 +21,8 @@ jobs:
       - name: Ensure browsers are installed
         run: python -m playwright install --with-deps
       - name: Run your tests
-        run: pytest -s -v
+        run: pytest -s -v --tracing=retain-on-failure
+      - name: Run 
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
@@ -48,4 +49,11 @@ jobs:
           PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PUBLISH_BRANCH: gh-pages
           PUBLISH_DIR: allure-history
+      - name: Upload Trace Viewer report
+        if: ${{ failure() && steps.e2e.conclusion == 'failure' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: trace-viewer-report
+          path: test-results/
+      
 
